@@ -9,7 +9,6 @@
 
 const fs = require('fs-extra')
 const path = require('path')
-const createOutputStream = require('create-output-stream')
 const CE = require('../Exceptions')
 
 /**
@@ -118,7 +117,10 @@ class LocalFileSystem {
   async put (location, content, options = {}) {
     if (isReadableStream(content)) {
       return new Promise((resolve, reject) => {
-        const ws = createOutputStream(this._fullPath(location), options)
+        const fullPath = this._fullPath(location)
+        const dir = dirname(fullPath);
+        await fs.ensureDir(dir);
+        const ws = fs.createWriteStream(fullPath, options);
 
         ws.on('close', () => resolve(true))
         ws.on('error', reject)
