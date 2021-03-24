@@ -118,7 +118,7 @@ class LocalFileSystem {
     if (isReadableStream(content)) {
       return new Promise(async (resolve, reject) => {
         const fullPath = this._fullPath(location)
-        const dir = dirname(fullPath);
+        const dir = path.dirname(fullPath);
         await fs.ensureDir(dir);
         const ws = fs.createWriteStream(fullPath, options);
 
