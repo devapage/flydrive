@@ -116,7 +116,7 @@ class LocalFileSystem {
    */
   async put (location, content, options = {}) {
     if (isReadableStream(content)) {
-      return new Promise((resolve, reject) => {
+      return new Promise(async (resolve, reject) => {
         const fullPath = this._fullPath(location)
         const dir = dirname(fullPath);
         await fs.ensureDir(dir);
